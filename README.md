@@ -1,2 +1,2 @@
 # Seminar-Presentations  
-check masters
+check master
