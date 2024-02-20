@@ -1,0 +1,22 @@
+# Understanding and Simplifying One-Shot Architecture Search
+
+fraction - 분수
+induce - 이끌어내다
+weight inheritance - parameter sharing between models
+
+Black-box methods measure the accuracies of trained architectures on a "held-out" validation set.
+Held-out validation set - test set
+
+solid lines - 실선
+dashed lines - 점선
+non-trivial - 사소하지 않은
+stand-alone model <-> SuperNet (One-Shot model)
+proxy metric - validation after one or several training 
+
+skip-connection - 
+More generally, we have the option of enabling or disabling any combination of the incoming connections. In this way, the size of the search space grows exponentially with the number of incoming skip-connections, while the size of the one-shot model grows only linearly. The concatenation is always followed by a 1x1 convolution; the number of output filters in the convolution remains constant no matter how many incoming skip-connections there are.
+
+Co-adaptation - One-Shot 모델에서 후보 연산자들이 공동으로 해당 데이터셋에 적응하는 현상. 
+
+elide - 제거하다
+As a compromise - 타협으로서

@@ -1,0 +1,61 @@
+presentation 21
+
+- Understanding and Simplifying One-Shot Architecture Search
+NAS 개발한 연구진 포함됨. (July 2018)
+NAS - 2017
+SMASH - 2017
+This paper - 2018
+DARTS - Jun 2019
+
+When my professor and I had a meeting yesterday, we also had a short discussion about improving DARTS.
+One idea was "grouping the candidate operations", and the other one was "Does the temperature expands the search space?"
+for the first one, I had doubts if grouping the operations is really a good way, especially for DARTS, or if it can work better on other methods.
+For the second one, I had to come up with the basic definition of search space in NAS and had to know more specifically about designing search space.
+so I read one of the famous survey papers about building a one-shot nas model.
+[and I got the answer for both of them.]
+By reading this paper, I could finally answer some questions that I was wondering about since the beginning of my research.
+I used the expression path for the edges which are the candidates of operations.
+1) "Does the temperature expands the search space?"
+2) "Why DARTS don't open up every operation when evaluate after the search process?"
+3) "How about dropping out several paths?"
+4) 
+
+- Search Space Design in One-Shot NAS model
+
+1. The search space should be large and expressive enough to capture a diverse set of interesting candidate architectures.
+(Search space는 모든 의미있는 후보 아키텍처를 검색할 수 있을 만큼 커야한다.)
+
+2. The validation set accuracies produced by the one-shot model must be predictive of the accuracies produced by stand-alone model training.
+(원샷 모델의 검증 세트 정확도는 하나의 모델로 독립된 training을 한 예측 결과여야 한다.)
+
+3. The one-shot model must be small enough to train using limited compute resources (i.e., memory and time). The best architectures in the search space must also have competitive accuracies.
+(원샷 모델은 제한된 자원으로 training 할 수 있어야 한다. 검색 공간 중에서 최적의 아키텍처는 반드시 경쟁력있는 정확도를 수반해야 한다.)
+
+
+여기 3번에서 제한하는 것은 메모리 혹은 시간 적으로 효율적인 아키텍처를 찾는다는 점이다.
+DARTS를 공부하면서 처음부터 가진 의문점이 하나 있었는데, 그것은 어째서 하나의 operation만 선택하냐는 것이다.
+그 이유는 이 3번에 의한 결과이며, 검색 과정의 search space는 모든 operation을 열어둔 모델 보다 클 수 있다.
+그것은 이후 설명하겠다.
+
+
+2번의 뜻은 결국 SuperNet의 예측결과가 각각의 후보 모델에서 예측한 결과여야 한다는 것이다.
+기존의 One-Shot model에서는 그랬지만 현재는 꼭 그렇지는 않다. DARTS가 그렇다.
+이 논문에서도 설명했지만, 결국 중요한 것은 stand-alone model의 실제 성능이 SuperNet에서 검색한 결과와 연관성이 있어야 한다는 것이다.
+
+
+- Robustness to Co-adaptation
+
+Co-adaptation - One-Shot 모델에서 후보 연산자들이 공동으로 해당 데이터셋에 적응하는 현상. One-Shot 모델을 나이브하게 구현할 경우 이 현상이 발생함. 이 경우, 한두개의 연산자만 남기고 나머지 연산자를 삭제하면 모델의 예측 성능이 심각하게 저하됨. 
+
+따라서 이 SuperNet을 학습시킬 때 Search Space의 후보들 중에 일부를 매 batch마다 랜덤하게 제거함(path dropout).
+path dropout은 처음에는 rate을 작게 했다가 이후 점점 늘렸을 때에 성능이 좋아졌다고 함.
+path dropout rate = r^1/k
+r = 0~1
+k = incoming paths
+
+
+
+
+
+
+
